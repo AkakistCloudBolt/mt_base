@@ -29,7 +29,7 @@ int mainFunc(int argc, char** argv )
         {
             IInstance *instance1=iUtils->createNewInstance("nodejsNode");
             ConfigObj *cnf1=new ConfigObj("nodejsNode",
-                                          "\nStart=nodejsNode"
+                                          "\nStart=RPC,nodejsNode"
                                           "\nTelnet.BindAddr=127.0.0.1:8081"
                                           "\nTelnet.deviceName=Device"
                                           "\nSocketIO.ListenerBuffered.MaxThreadsCount=10"
@@ -45,6 +45,17 @@ int mainFunc(int argc, char** argv )
 "\n# oscar type - Oscar || OscarSecure"
 "\nnodejsNode.oscarType=Oscar"
 "\nnodejsNode.IterateTimeoutSec=60.000000"
+
+"\n# oscar type - Oscar || OscarSecure"
+"\nRPC.oscarType=Oscar"
+"\nRPC.IterateTimeoutSec=60.000000"
+"\nRPC.ConnectionActivity=600.000000"
+
+"\n# Address used to work with dfs network RPC_UL. NONE - no bind"
+"\nRPC.BindAddr_MAIN=INADDR_ANY:0,INADDR6_ANY:0"
+
+"\n# Address used to communicate with local apps RPC_DL, must be fixed. NONE - no bind"
+"\nRPC.BindAddr_RESERVE=NONE"
                                          );
             instance1->setConfig(cnf1);
             instance1->initServices();

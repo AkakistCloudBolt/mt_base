@@ -8,6 +8,8 @@ if(UNIX AND NOT APPLE)
 SET(LINUX true)
 endif()
 
+#set(CMAKE_C_COMPILER "/usr/bin/clang")
+#set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
 set(M1 true)
 

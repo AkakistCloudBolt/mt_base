@@ -1,4 +1,5 @@
 #include "mutexInspector.h"
+
 #include <unistd.h>
 #define STATICLIB 1
 
@@ -15,8 +16,7 @@ nodejs::Service::Service(const SERVICE_id &svs, const std::string&  nm, IInstanc
     Broadcaster(ifa),
     myOscar(ifa->getConfig()->get_string("oscarType","Oscar","oscar type - Oscar || OscarSecure")),
     iterateTimeout_(ifa->getConfig()->get_real("IterateTimeoutSec",60,"")),
-    iInstance(ifa),
-    m_isTerminating(false)
+    iInstance(ifa)
 {
 
     try
@@ -36,7 +36,6 @@ nodejs::Service::Service(const SERVICE_id &svs, const std::string&  nm, IInstanc
 }
 nodejs::Service::~Service()
 {
-    m_isTerminating=true;
 
 }
 

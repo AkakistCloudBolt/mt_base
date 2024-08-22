@@ -1,5 +1,4 @@
 #pragma once
-#include <REF.h>
 #include <webDumpable.h>
 #include <SOCKET_id.h>
 
@@ -58,7 +57,6 @@ namespace nodejs
 
 
         IInstance* iInstance;
-        bool m_isTerminating;
 
 
         void deinit()

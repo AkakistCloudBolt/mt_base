@@ -15,6 +15,7 @@
 #include <Events/System/timerEvent.h>
 #include <Events/System/Run/startServiceEvent.h>
 #include <Events/Tools/webHandlerEvent.h>
+#include "Events/nodejsEvent.h"
 
 
 namespace nodejs
@@ -53,7 +54,7 @@ namespace nodejs
 
 
         bool handleEvent(const REF_getter<Event::Base>& e);
-
+        bool ExecJsREQ(const nodejsEvent::ExecJsREQ*);
 
 
         IInstance* iInstance;

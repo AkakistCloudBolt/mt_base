@@ -8,6 +8,7 @@
 #include "Events/System/timerEvent.h"
 #include "Events/nodejsEvent.h"
 #include "events_nodejs.hpp"
+#include "Events/System/Net/rpcEvent.h"
 nodejs::Service::Service(const SERVICE_id &svs, const std::string&  nm, IInstance* ifa):
     UnknownBase(nm),
     ListenerBuffered1Thread(nm,svs),
@@ -69,6 +70,11 @@ UnknownBase* nodejs::Service::construct(const SERVICE_id& id, const std::string&
 }
 
 
+bool nodejs::Service::ExecJsREQ(const nodejsEvent::ExecJsREQ*)
+{
+
+    return true;
+}
 
 
 void registerNodeJsService(const char* pn)
@@ -107,7 +113,27 @@ bool nodejs::Service::handleEvent(const REF_getter<Event::Base>& e)
 
     if(webHandlerEventEnum::RequestIncoming==ID)
         return on_RequestIncoming((webHandlerEvent::RequestIncoming*)e.get());
+    if(nodejsEventEnum::ExecJsREQ==ID)
+        return ExecJsREQ((nodejsEvent::ExecJsREQ*)e.get());
 
+
+    if(rpcEventEnum::IncomingOnConnector==ID)
+    {
+        rpcEvent::IncomingOnConnector *E=(rpcEvent::IncomingOnConnector *) e.get();
+        auto& IDC=E->e->id;
+        if(nodejsEventEnum::ExecJsREQ==IDC)
+            return ExecJsREQ((nodejsEvent::ExecJsREQ*)E->e.get());
+        return false;
+    }
+
+    if(rpcEventEnum::IncomingOnAcceptor==ID)
+    {
+        rpcEvent::IncomingOnAcceptor *E=(rpcEvent::IncomingOnAcceptor *) e.get();
+        auto& IDA=E->e->id;
+        if(nodejsEventEnum::ExecJsREQ==IDA)
+            return ExecJsREQ((nodejsEvent::ExecJsREQ*)E->e.get());
+        return false;
+    }
     XPASS;
     return false;
 

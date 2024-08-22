@@ -13,8 +13,8 @@ namespace ServiceEnum
 namespace nodejsEventEnum
 {
 
-    const EVENT_id AddTokenREQ(genum_ptAddTokenREQ);
-    const EVENT_id AddTokenRSP(genum_ptAddTokenRSP);
+    const EVENT_id ExecJsREQ(genum_ptAddTokenREQ);
+    const EVENT_id ExecJsRSP(genum_ptAddTokenRSP);
 
 }
 
@@ -23,56 +23,59 @@ namespace nodejsEvent {
 
 
 
-    class AddTokenREQ: public Event::Base
+    class ExecJsREQ: public Event::Base
     {
     public:
         static Base* construct(const route_t &r)
         {
-            return new AddTokenREQ(r);
+            return new ExecJsREQ(r);
         }
-        AddTokenREQ(const int& _ur,
+        ExecJsREQ(int64_t _reqId, const std::string& _code,
                    const route_t&r)
-            :Base(nodejsEventEnum::AddTokenREQ,r),
-             ur(_ur)
+            :Base(nodejsEventEnum::ExecJsREQ,r),
+             reqId(_reqId),code(_code)
         {}
-        AddTokenREQ(const route_t&r)
-            :Base(nodejsEventEnum::AddTokenREQ,r) {}
-        int ur;
+        ExecJsREQ(const route_t&r)
+            :Base(nodejsEventEnum::ExecJsREQ,r) {}
+        int64_t reqId;
+        std::string code;
         void unpack(inBuffer& o)
         {
-            o>>ur;
+            o>>reqId>>code;
         }
         void pack(outBuffer&o) const
         {
-            o<<ur;
+            o<<reqId<<code;
         }
         void jdump(Json::Value &) const
         {
         }
 
     };
-    class AddTokenRSP: public Event::Base
+    class ExecJsRSP: public Event::Base
     {
     public:
         static Base* construct(const route_t &r)
         {
-            return new AddTokenRSP(r);
+            return new ExecJsRSP(r);
         }
-        AddTokenRSP(int64_t _lastId,
+        ExecJsRSP(int64_t _reqId,
                    const route_t&r)
-            :Base(nodejsEventEnum::AddTokenRSP,r),
-             lastId(_lastId)
+            :Base(nodejsEventEnum::ExecJsRSP,r),
+             reqtId(_reqId)
         {}
-        AddTokenRSP(const route_t&r)
-            :Base(nodejsEventEnum::AddTokenRSP,r) {}
-        int64_t lastId;
+        ExecJsRSP(const route_t&r)
+            :Base(nodejsEventEnum::ExecJsRSP,r) {}
+        int64_t reqtId;
+        int result;
+        std::string error;
         void unpack(inBuffer& o)
         {
-            o>>lastId;
+            o>>reqtId>>result>>error;
         }
         void pack(outBuffer&o) const
         {
-            o<<lastId;
+            o<<reqtId<<result<<error;
         }
         void jdump(Json::Value &) const
         {

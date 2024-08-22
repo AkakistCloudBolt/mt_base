@@ -7,21 +7,21 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-ADD_SUBDIRECTORY(service)
 
 add_definitions(-DNODE_WANT_INTERNALS)
 include_directories(
-    node-v20.16.0/tools
+    ${CMAKE_CURRENT_SOURCE_DIR}/node-v20.16.0/tools
     /usr/local/include/node 
-    node-v20.16.0/src
-    node-v20.16.0/deps/v8/include/
+    ${CMAKE_CURRENT_SOURCE_DIR}/node-v20.16.0/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/node-v20.16.0/deps/v8/include/
 )
+ADD_SUBDIRECTORY(service)
 
 add_executable(embedtest
     embedtest.cc
     node-v20.16.0/out/Release/obj/gen/node_snapshot.cc
 )
-
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/node-v20.16.0/out/Release/)
 target_link_libraries(embedtest 
 ${CMAKE_CURRENT_SOURCE_DIR}/node-v20.16.0/out/Release/libnode.a
 ${CMAKE_CURRENT_SOURCE_DIR}/node-v20.16.0/out/Release/libada.a
